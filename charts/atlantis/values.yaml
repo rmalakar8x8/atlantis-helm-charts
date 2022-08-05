@@ -8,6 +8,7 @@ github:
   token: 
   secret: 
 
+
 ## To be used for mounting credential files (when using google provider).
 serviceAccountSecrets:
   # credentials: <json file as base64 encoded string>
