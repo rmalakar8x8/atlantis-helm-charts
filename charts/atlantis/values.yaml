@@ -5,9 +5,8 @@ logLevel: info
 
 github:
   user: vinitkapoor
-  token: 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
-  secret: hwipinobzbfipvsmroxhdpetxjcpirhdevqjjzsuwdcwoogcuujmyiiufuhaeltjxfeltbwwyhlforoomswbnwvrzvqkjstkcsjigarnrsnyswxfmdbhlklgweywklai
-
+  token: 
+  secret: 
 
 ## To be used for mounting credential files (when using google provider).
 serviceAccountSecrets:
@@ -290,15 +289,15 @@ googleServiceAccountSecrets: []
 
 # Optionally specify additional volumes for the pod.
 extraVolumes: []
-# extraVolumes:
-#   - name: some-volume-name
-#     emptyDir: {}
+#extraVolumes:
+#  - name: git_secrets
+#    emptyDir: {}
 
 # Optionally specify additional volume mounts for the container.
 extraVolumeMounts: []
-# extraVolumeMounts:
-#   - name: some-volume-name
-#     mountPath: /path/in/container
+#extraVolumeMounts:
+#  - name: git_secrets
+#    mountPath: /env
 
 extraManifests: []
 # extraManifests:
@@ -326,9 +325,8 @@ initContainers:
       oci secrets secret-bundle get --secret-id $oke_kube_config_secret_id --auth instance_principal | jq -r '.data["secret-bundle-content"]["content"]' | base64 -d - |tr -d '"' >> kube_config.cfg;
       path=`pwd`;
       export KUBECONFIG=$path/kube_config.cfg;
-      echo "github_secret=$github_token,github_secret=$github_secret";
-      kubectl create secret generic git-secret --from-literal=github_token=$github_token --from-literal=github_secret=$github_secret;
-
+      echo "export ATLANTIS_GH_TOKEN=$github_token";
+      echo "export ATLANTIS_GH_WEBHOOK_SECRET=$github_secret";
 
 
 # hostAliases:
